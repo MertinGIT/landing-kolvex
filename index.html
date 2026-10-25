@@ -2,6 +2,24 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
+<script>
+// Every fresh visit starts with the monitor. Later, navigation remains native.
+(() => {
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  if (location.hash) history.replaceState(history.state, '', location.pathname + location.search);
+  let interacted = false;
+  const release = () => { interacted = true; };
+  for (const type of ['wheel', 'touchstart', 'pointerdown', 'keydown'])
+    window.addEventListener(type, release, {once:true, passive:true});
+  const showHero = () => {
+    if (!interacted) window.scrollTo({top:0, left:0, behavior:'instant'});
+  };
+  showHero();
+  document.addEventListener('DOMContentLoaded', showHero, {once:true});
+  window.addEventListener('pageshow', showHero, {once:true});
+})();
+</script>
+
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#2457ed">
 <meta name="description" content="Kolvex. Páginas web, sistemas a medida y automatizaciones para empresas que quieren dar el siguiente paso. Hablemos de tu proyecto.">
@@ -84,6 +102,14 @@ body{background:linear-gradient(180deg,#fff 0,#f9fbff 700px,#fff 1200px)}
 .build-section,.assembly-wrap{background:#f5f7fc}.assembly-atmosphere{background:radial-gradient(ellipse at 66% 61%,#dce6fc8c,transparent 52%),linear-gradient(180deg,#fff 0%,#f6f8fc 62%,#edf1f8 100%)}.assembly-horizon,.assembly-floor{display:none}.assembly-aura{left:25%;right:25%;bottom:16%;height:8%;background:#6a7fa519;filter:blur(28px)}.assembly-wrap[data-phase="4"] .assembly-aura{background:#6a7fa519}.assembly-heading h1{font-weight:500;letter-spacing:-1.6px}.assembly-bottom #assembly-caption{color:#62718c}.assembly-bottom #assembly-count{color:#6079a5;font-size:22px}.assembly-dock{background:linear-gradient(transparent,#f0f4fa80 50%,#f0f4fadd)}.assembly-step-list{box-shadow:none;border-color:#dfe5ef;background:#ffffffd9}.assembly-step{font-size:10px;padding:10px 11px;color:#5c6c87}.assembly-step>span{color:#8591a5}.assembly-cta{border-radius:14px;box-shadow:0 7px 20px #2457ed25}.assembly-controls button{font-size:11px;color:#63738d}.demo-label{display:none}.assembly-progress{background:#e3e9f3}.assembly-progress span{box-shadow:none}.assembly-explore{color:#64738c;font-size:11px}.assembly-controls button{min-width:38px;min-height:38px}.assembly-step{min-height:38px}
 @media(max-width:1150px){.assembly-step{font-size:9px;padding:9px 9px}.assembly-cta{min-width:210px}.assembly-controls{gap:8px}}
 @media(max-width:760px){.assembly-dock{background:linear-gradient(transparent,#f0f4facc 30%,#f0f4faf2)}.assembly-step{font-size:9px;padding:8px 12px;min-height:36px}.assembly-cta{min-width:224px}.assembly-explore{font-size:10px}.assembly-controls{right:10px;gap:2px}.assembly-controls button{min-width:34px;min-height:34px}.assembly-bottom #assembly-caption{font-size:11px}.assembly-bottom #assembly-count{font-size:19px}.assembly-aura{bottom:30%}}
+/* Cobalt leads; cyan and violet give each assembly stage a distinct energy. */
+.assembly-atmosphere{background:radial-gradient(ellipse at 88% 52%,#c3b3ff65,transparent 46%),radial-gradient(ellipse at 12% 64%,#8ee4f95e,transparent 43%),linear-gradient(180deg,#fff 0%,#f2f6ff 70%,#e7edff 100%)}
+.assembly-atmosphere:before,.assembly-atmosphere:after{content:'';position:absolute;inset:22% -10% 12%;border-radius:50%;background:radial-gradient(ellipse,#2457ed13,transparent 66%);animation:assemblyAmbient 8s ease-in-out infinite;will-change:transform;pointer-events:none}.assembly-atmosphere:after{inset:36% 5% 8% 45%;background:radial-gradient(ellipse,#8850ef18,transparent 70%);animation-delay:-4s}
+.assembly-heading h1 span{background:linear-gradient(100deg,#2457ed 5%,#6050e9 90%);background-clip:text;-webkit-background-clip:text;color:transparent}.assembly-aura,.assembly-wrap[data-phase="4"] .assembly-aura{background:#6d75e92b;transition:background .35s}.assembly-wrap[data-phase="1"] .assembly-aura{background:#0bc4db35}.assembly-wrap[data-phase="3"] .assembly-aura{background:#8a50ef35}
+.assembly-progress span{background:linear-gradient(90deg,#05bdd4,#2457ed 48%,#8b50ef)}.assembly-wrap[data-phase="1"] .assembly-step.active{background:#087e9b}.assembly-wrap[data-phase="3"] .assembly-step.active{background:#7542d9}.assembly-step{transition:background .18s,color .18s,box-shadow .18s}.assembly-cta{background:linear-gradient(110deg,#2457ed,#4253eb);box-shadow:0 8px 28px #2457ed30}.assembly-cta:hover{background:linear-gradient(110deg,#1746d5,#6544de)}
+.assembly-wrap.motion-paused .assembly-atmosphere:before,.assembly-wrap.motion-paused .assembly-atmosphere:after{animation-play-state:paused}
+@keyframes assemblyAmbient{0%,100%{transform:translate3d(-2%,0,0) scale(.96)}50%{transform:translate3d(2%,-3%,0) scale(1.06)}}
+@media(prefers-reduced-motion:reduce){.assembly-atmosphere:before,.assembly-atmosphere:after{animation:none;will-change:auto}}
 
 </style>
 <!--
@@ -704,7 +730,7 @@ function initAssembly(){
   {x:336,y:409,w:288,h:96,label:'<article>  ·  tecnología',start:6.05,end:7.5},
   {x:640,y:409,w:288,h:96,label:'<article>  ·  experiencia',start:6.5,end:7.95}
  ];
- function drawWire(ctx,p,x=p.x,y=p.y){const w=p.w,h=p.h;rr(ctx,x,y,w,h,7,'#f5f8ff','#93b4ef');txt(ctx,p.label,x+13,y+23,10,'#4f77bc',500);if(h>55){ctx.setLineDash([4,5]);rr(ctx,x+12,y+37,w-24,h-49,3,null,'#c4d6f5');ctx.setLineDash([])}if(h>180){rr(ctx,x+28,y+70,w*.72,16,3,'#bdd0f3');rr(ctx,x+28,y+99,w*.58,16,3,'#d2def4');rr(ctx,x+28,y+142,w*.69,5,2,'#c8d8f1');rr(ctx,x+28,y+157,w*.57,5,2,'#d4e0f5');rr(ctx,x+28,y+196,120,38,5,null,'#98b7ee')}}
+ function drawWire(ctx,p,x=p.x,y=p.y){const w=p.w,h=p.h;rr(ctx,x,y,w,h,7,'#effaff','#7cc9df');txt(ctx,p.label,x+13,y+23,10,'#087f9c',500);if(h>55){ctx.setLineDash([4,5]);rr(ctx,x+12,y+37,w-24,h-49,3,null,'#c4d6f5');ctx.setLineDash([])}if(h>180){rr(ctx,x+28,y+70,w*.72,16,3,'#bdd0f3');rr(ctx,x+28,y+99,w*.58,16,3,'#d2def4');rr(ctx,x+28,y+142,w*.69,5,2,'#c8d8f1');rr(ctx,x+28,y+157,w*.57,5,2,'#d4e0f5');rr(ctx,x+28,y+196,120,38,5,null,'#98b7ee')}}
  function flyingPanel(p,canvas,kind){
   const group=new THREE.Group(),w=p.w/960*sw,h=p.h/540*sh;
   const edgeMat=new THREE.MeshPhysicalMaterial({color:0xd3dbea,metalness:.5,roughness:.32,transparent:true,opacity:0});
@@ -721,21 +747,29 @@ function initAssembly(){
  const sculptureMaterial=new THREE.MeshPhysicalMaterial({color:0x2457ed,metalness:.28,roughness:.25,clearcoat:1,clearcoatRoughness:.18,envMapIntensity:.75});
  const sculptureMesh=new THREE.Mesh(new THREE.TorusKnotGeometry(.52,.16,cpu?100:160,cpu?16:24,2,3),sculptureMaterial);
  sculptureMesh.userData.softwareLayer=4;sculpture.add(sculptureMesh);
+ const artBlue=new THREE.Color(0x2457ed),artViolet=new THREE.Color(0x794af5);
+ const accentPieces=[0x09b9d1,0x9461fa,0x4d8dff].map((color,index)=>{
+  const material=new THREE.MeshPhysicalMaterial({color,metalness:.18,roughness:.25,clearcoat:1});
+  const mesh=index===0?sphere(monitor,0,0,0,.09,.09,.09,material):roundedBox(monitor,0,0,0,.18,.18,.13,.045,material);
+  mesh.userData.softwareLayer=5;return{mesh,size:mesh.scale.clone()};
+ });
  const sculptureShadow=new THREE.Mesh(new THREE.PlaneGeometry(1.85,.36),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(shadowCanvas),transparent:true,depthWrite:false,toneMapped:false}));sculptureShadow.position.set(1.65,-.46,.073);sculptureShadow.userData.softwareLayer=2;monitor.add(sculptureShadow);
  function drawDesign(ctx,t){
   ctx.fillStyle='#fbfcff';ctx.fillRect(0,0,960,540);
+  const halo=ctx.createRadialGradient(753,226,12,753,226,225);halo.addColorStop(0,'#e1d8ff');halo.addColorStop(.48,'#e2eaff');halo.addColorStop(1,'#fbfcff');ctx.fillStyle=halo;ctx.fillRect(565,62,395,332);
+  const ribbon=ctx.createLinearGradient(0,0,960,0);ribbon.addColorStop(0,'#2457ed');ribbon.addColorStop(.5,'#08b9d1');ribbon.addColorStop(1,'#8a50ef');ctx.fillStyle=ribbon;ctx.fillRect(0,0,960,3);
   txt(ctx,'KOLVEX',37,40,19,'#19243c',800);
   txt(ctx,'Estudio',604,37,11,'#63718b',500);txt(ctx,'Proyectos',677,37,11,'#63718b',500);txt(ctx,'Contacto ↗',777,37,11,'#2457ed',700);
   ctx.strokeStyle='#e2e7f0';ctx.beginPath();ctx.moveTo(36,61);ctx.lineTo(924,61);ctx.stroke();
   txt(ctx,'ESTRATEGIA. DISEÑO. TECNOLOGÍA.',38,110,9,'#607496',700);
-  txt(ctx,'Ideas claras.',34,183,58,'#18243a',600);txt(ctx,'Impacto real.',34,247,58,'#2457ed',600);
+  txt(ctx,'Ideas claras.',34,183,58,'#18243a',600);const ink=ctx.createLinearGradient(34,0,420,0);ink.addColorStop(0,'#2457ed');ink.addColorStop(1,'#7542d9');txt(ctx,'Impacto real.',34,247,58,ink,600);
   txt(ctx,'Creamos lo que tu negocio necesita',38,283,13,'#67748a');txt(ctx,'para dar su próximo gran paso.',38,304,13,'#67748a');
   const hover=t>15&&t<17.3,click=phase(t,16,16.3)*(1-phase(t,16.3,16.8));
-  rr(ctx,36,323+click*2,181,39,20,hover?'#1847d2':'#2457ed');txt(ctx,'Hagamos algo grande ↗',52,348+click*2,11,'#fff',700);
+  rr(ctx,36,323+click*2,181,39,20,hover?'#7542d9':'#2457ed');txt(ctx,'Hagamos algo grande ↗',52,348+click*2,11,'#fff',700);
   txt(ctx,'01 — IDEAS QUE TOMAN FORMA',647,371,8,'#7b8ba4',600);
   const titles=['Diseño que distingue.','Hecha para conectar.','Lista para crecer.'];
   const desc=['Una identidad que se reconoce.','De la primera visita al contacto.','Una base para tu próximo paso.'];
-  for(let i=0;i<3;i++){const x=32+i*304;rr(ctx,x,409,288,96,10,'#fff','#e3e8f1');txt(ctx,'0'+(i+1),x+17,432,9,'#2457ed',700);txt(ctx,titles[i],x+17,457,14,'#26334b',700);txt(ctx,desc[i],x+17,479,10,'#7b879b')}
+  for(let i=0;i<3;i++){const x=32+i*304,color=['#2457ed','#089ab4','#8050d9'][i];rr(ctx,x,409,288,96,10,['#f0f4ff','#ecfafc','#f5efff'][i],'#e3e8f1');rr(ctx,x+17,421,22,3,1.5,color);txt(ctx,'0'+(i+1),x+17,441,9,color,700);txt(ctx,titles[i],x+17,457,14,'#26334b',700);txt(ctx,desc[i],x+17,479,10,'#7b879b')}
   txt(ctx,'HECHO CON INTENCIÓN.',36,527,8,'#8d99ab',500);txt(ctx,'KOLVEX — ESTUDIO DIGITAL',753,527,8,'#8d99ab',500);
   if(t>=13&&t<18){const p=phase(t,13.5,15.5),cx=507+(153-507)*p,cy=390+(344-390)*p;ctx.save();ctx.translate(cx,cy);ctx.fillStyle='#fff';ctx.strokeStyle='#17305b';ctx.lineWidth=1.6;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(0,22);ctx.lineTo(6,16);ctx.lineTo(11,25);ctx.lineTo(16,22);ctx.lineTo(11,13);ctx.lineTo(21,12);ctx.closePath();ctx.fill();ctx.stroke();ctx.restore();if(t>16.35){const a=phase(t,16.35,16.8);ctx.globalAlpha=a;rr(ctx,635,77-(1-a)*8,289,34,17,'#eef3ff');txt(ctx,'✓ Tu próximo proyecto empieza con un hola.',650,99-(1-a)*8,10,'#2457ed',600);ctx.globalAlpha=1}}
  }
@@ -764,21 +798,23 @@ function initAssembly(){
   }
   displayTexture.needsUpdate=true;
  }
- const duration=24,stops=[0,2.5,8,13,18,24],captions=['Tu idea toma dimensión.','Cada pieza encuentra su lugar.','Tu identidad entra en escena.','Una web que conecta con tus clientes.','Tu negocio merece verse así.'];
+ const playbackRate=4,duration=24,stops=[0,2.5,8,13,18,24],captions=['Tu idea toma dimensión.','Cada pieza encuentra su lugar.','Tu identidad entra en escena.','Una web que conecta con tus clientes.','Tu negocio merece verse así.'];
  const buttons=[...document.querySelectorAll('[data-build-step]')],play=document.getElementById('assembly-play'),restart=document.getElementById('assembly-restart'),announce=document.getElementById('assembly-announcement'),progress=document.getElementById('assembly-progress'),caption=document.getElementById('assembly-caption'),counter=document.getElementById('assembly-count');
- const media=matchMedia('(prefers-reduced-motion: reduce)');let time=media.matches?22:.2,playing=!media.matches,inView=false,last=0,raf=0,currentStep=-1,px=0,py=0,lookX=0,lookY=0,seek=null,fitDistance=9,isMobile=false,cameraTarget=.75;
- function setUI(){play.setAttribute('aria-pressed',String(!playing));play.setAttribute('aria-label',playing?'Pausar recorrido de construcción':'Reproducir recorrido de construcción');play.querySelector('span').textContent=playing?'Pausar':'Reproducir';play.querySelector('use').setAttribute('href',playing?'#i-pause':'#i-play')}
+ const media=matchMedia('(prefers-reduced-motion: reduce)');let time=media.matches?22:.2,playing=!media.matches,inView=false,last=0,raf=0,currentStep=-1,px=0,py=0,lookX=0,lookY=0,seek=null,fitDistance=9,isMobile=false,cameraTarget=.75,idleClock=0,lastScreenTime=-1;
+ function setUI(){wrap.classList.toggle('motion-paused',!playing);play.setAttribute('aria-pressed',String(!playing));play.setAttribute('aria-label',playing?'Pausar recorrido de construcción':'Reproducir recorrido de construcción');play.querySelector('span').textContent=playing?'Pausar':'Reproducir';play.querySelector('use').setAttribute('href',playing?'#i-pause':'#i-play')}
  function update(t){
-  const entry=phase(t,0,1.4),push=phase(t,18,22);
+  const entry=phase(t,0,1.4),push=phase(t,18,22),idle=t>=duration?idleClock:0;
   rig.scale.setScalar(.91+.09*entry);rig.position.y=-(1-entry)*.35;
   base.scale.setScalar(Math.max(.001,phase(t,0,.6)));stand.scale.set(1,Math.max(.001,phase(t,.15,.85)),1);
   const m=phase(t,.25,1.5);monitor.scale.setScalar(.9+.1*m);monitor.position.y=.74+(1-m)*.5;monitor.position.z=-(1-m)*.6;monitor.rotation.x=(1-m)*-.16;displayMat.opacity=phase(t,.4,1.3);indicator.visible=t>1;
-  rig.rotation.y=-.16+lookX*.055+Math.sin(t*.19)*.018+push*.055;rig.rotation.x=lookY*.014;
+  rig.rotation.y=-.16-(1-entry)*.16+lookX*.07+Math.sin(t*.19+idle*.45)*.018+push*.055;rig.rotation.x=lookY*.014;
   camera.position.set(.12,cameraTarget+.46,fitDistance/(1+push*.018));camera.lookAt(0,cameraTarget,0);
   groundShadow.material.opacity=.4+.6*entry;
   const art=phase(t,10.4,12.5);sculpture.visible=t>10.4;sculptureShadow.visible=t>10.4;
   sculpture.position.set(1.66+(1-art)*.2,.26+(1-art)*.5,.72+(1-art)*1.1);
-  sculpture.scale.setScalar(Math.max(.001,art)*.78);sculpture.rotation.set(.38,.35+t*.025,-.68);
+  sculpture.scale.setScalar(Math.max(.001,art)*.78);sculpture.rotation.set(.38+Math.sin(idle*.8)*.035,.35+t*.025+idle*.13,-.68);
+  sculptureMaterial.color.copy(artBlue).lerp(artViolet,.28+.2*Math.sin(t*.4+idle*.7));
+  accentPieces.forEach(({mesh,size},i)=>{const a=phase(t,9.4+i*.55,11.7+i*.55),angle=i*2.1+t*.085+idle*.32;mesh.visible=a>0;mesh.scale.copy(size).multiplyScalar(a);mesh.position.set(1.66+Math.cos(angle)*.88,.29+Math.sin(angle)*.67,.66+Math.sin(angle)*.12+(1-a)*.5);mesh.rotation.set(t*.05+idle*.25,i*.8+t*.07+idle*.2,.35);});
   sculptureShadow.material.opacity=art*.65;
   for(const {mesh,p,materials,kind}of flights){
    const k=phase(t,p.start,p.end),side=p.x+p.w/2<480?-1:1;
@@ -788,19 +824,28 @@ function initAssembly(){
    // Cubic flight paths carry each solid panel from the foreground into its
    // exact screen position. Position, rotation and scale settle together.
    const b0=(1-k)**3,b1=3*(1-k)**2*k,b2=3*(1-k)*k*k;
-   const spread=isMobile?.12:.24,arch=kind==='design'?-.22:.3;
-   mesh.position.set(x+side*(spread*b0+spread*.6*b1+.12*b2),y+arch*b0+arch*.65*b1+.08*b2,.075+.7*b0+.48*b1+.16*b2);
-   mesh.rotation.set((1-k)*.15,(1-k)*side*-.22,(1-k)*side*.028);mesh.scale.setScalar(.94+.06*k);
+   const spread=isMobile?.10:.22,arch=kind==='design'?-.28:.36;
+   mesh.position.set(x+side*(spread*b0+spread*.6*b1+.12*b2),y+arch*b0+arch*.65*b1+.08*b2,.075+.95*b0+.54*b1+.16*b2);
+   mesh.rotation.set((1-k)*.2,(1-k)*side*-.3,(1-k)*side*.045);mesh.scale.setScalar(.94+.06*k);
   }
   let step=0;while(step<4&&t>=stops[step+1])step++;
   if(step!==currentStep){currentStep=step;wrap.dataset.phase=String(step);buttons.forEach((b,i)=>{b.classList.toggle('active',i===step);b.setAttribute('aria-pressed',String(i===step))});caption.textContent=captions[step];counter.innerHTML='0'+(step+1)+' <small>/ 05</small>';announce.textContent=captions[step]}
-  progress.style.transform='scaleX('+t/duration+')';screen(t);renderer.render(assembly,camera);
+  progress.style.transform='scaleX('+t/duration+')';if(t!==lastScreenTime){screen(t);lastScreenTime=t}renderer.render(assembly,camera);
  }
  function start(){if(!raf&&(playing||seek)&&inView&&!document.hidden){last=performance.now();raf=requestAnimationFrame(tick)}}
- function tick(now){raf=0;if((!playing&&!seek)||!inView||document.hidden)return;const dt=Math.min((now-last)/1000,.1);last=now;const damping=1-Math.exp(-dt*5);lookX+=(px-lookX)*damping;lookY+=(py-lookY)*damping;if(seek){seek.elapsed+=dt;time=seek.from+(seek.to-seek.from)*ease(seek.elapsed/.8);if(seek.elapsed>=.8)seek=null}else{time=Math.min(duration,time+dt);if(time===duration){playing=false;setUI()}}update(time);if(playing||seek)raf=requestAnimationFrame(tick)}
- buttons.forEach((button,i)=>button.addEventListener('click',()=>{playing=false;cancelAnimationFrame(raf);raf=0;const target=[2.35,7.98,12.95,17.3,22][i];if(media.matches){time=target;update(time)}else seek={from:time,to:target,elapsed:0};setUI();start()}));
- play.addEventListener('click',()=>{playing=!playing;seek=null;if(playing&&time>=duration)time=0;setUI();if(playing)start();else{cancelAnimationFrame(raf);raf=0}});
- restart.addEventListener('click',()=>{time=0;seek=null;playing=true;setUI();update(time);start()});
+ function tick(now){
+  raf=0;if((!playing&&!seek)||!inView||document.hidden)return;
+  // Advance the story by real elapsed time, even on a slower device.
+  // Resetting last on resume keeps hidden/offscreen time out of the sequence.
+  const elapsed=Math.max(0,(now-last)/1000),dt=Math.min(elapsed,.1);last=now;
+  const damping=1-Math.exp(-dt*7);lookX+=(px-lookX)*damping;lookY+=(py-lookY)*damping;
+  if(seek){seek.elapsed+=elapsed;time=seek.from+(seek.to-seek.from)*ease(seek.elapsed/.32);if(seek.elapsed>=.32)seek=null}
+  else {time=Math.min(duration,time+elapsed*playbackRate);if(time>=duration)idleClock+=dt;}
+  update(time);if(playing||seek)raf=requestAnimationFrame(tick);
+ }
+ buttons.forEach((button,i)=>button.addEventListener('click',()=>{playing=false;idleClock=0;cancelAnimationFrame(raf);raf=0;const target=[2.35,7.98,12.95,17.3,22][i];if(media.matches){time=target;update(time)}else seek={from:time,to:target,elapsed:0};setUI();start()}));
+ play.addEventListener('click',()=>{playing=!playing;seek=null;if(playing&&time>=duration){time=0;idleClock=0}setUI();if(playing)start();else{cancelAnimationFrame(raf);raf=0}});
+ restart.addEventListener('click',()=>{time=0;idleClock=0;seek=null;playing=true;setUI();update(time);start()});
  const observer=new IntersectionObserver(entries=>{inView=entries[0].isIntersecting;if(inView)start();else{cancelAnimationFrame(raf);raf=0}},{rootMargin:'0px',threshold:.08});observer.observe(host);
  document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(raf);raf=0}else start()});
  media.addEventListener('change',e=>{playing=!e.matches;if(!playing){seek=null;cancelAnimationFrame(raf);raf=0;time=22;update(time)}else start();setUI()});
