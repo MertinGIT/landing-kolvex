@@ -110,7 +110,9 @@ body{background:linear-gradient(180deg,#fff 0,#f9fbff 700px,#fff 1200px)}
 .assembly-wrap.motion-paused .assembly-atmosphere:before,.assembly-wrap.motion-paused .assembly-atmosphere:after{animation-play-state:paused}
 @keyframes assemblyAmbient{0%,100%{transform:translate3d(-2%,0,0) scale(.96)}50%{transform:translate3d(2%,-3%,0) scale(1.06)}}
 @media(prefers-reduced-motion:reduce){.assembly-atmosphere:before,.assembly-atmosphere:after{animation:none;will-change:auto}}
-
+.portfolio{padding-top:24px;padding-bottom:44px}.portfolio-Grid{display:grid;grid-template-columns:1fr;gap:22px}.portfolio-card{display:grid;grid-template-columns:1.15fr .85fr;border:1px solid #dce5f5;border-radius:20px;background:linear-gradient(155deg,#fff 0%,#f6f9ff 100%);overflow:hidden;box-shadow:0 10px 35px #1b439108;transition:transform .6s var(--ease),border-color .45s,box-shadow .45s}.portfolio-card:hover{border-color:#adc4f8;box-shadow:0 20px 48px #1b439114;transform:translateY(-4px)}.portfolio-media{position:relative;min-height:360px;background:#0f1f18;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:18px}.portfolio-media video,.portfolio-media>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.1s var(--ease);filter:brightness(.92)}.portfolio-card:hover .portfolio-media video,.portfolio-card:hover .portfolio-media>img{transform:scale(1.04);filter:brightness(1)}.portfolio-media:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,#0a1a1570 0%,transparent 40%,#081410c4 100%);pointer-events:none}.portfolio-media-top,.portfolio-media-bottom{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:10px}.portfolio-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:30px;background:#0d1f18bf;backdrop-filter:blur(8px);border:1px solid #ffffff30;color:#fff;font:600 9px var(--display);letter-spacing:1.5px;text-transform:uppercase}.portfolio-badge i{width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80}.portfolio-url{font:500 10px var(--display);color:#e5efe9;background:#0d1f18b3;backdrop-filter:blur(8px);border:1px solid #ffffff24;padding:5px 11px;border-radius:20px}.portfolio-thumbs{display:flex;gap:8px}.portfolio-thumbs img{width:56px;height:40px;object-fit:cover;border-radius:6px;border:1px solid #ffffff4d;box-shadow:0 4px 12px #0006}.portfolio-body{padding:32px 34px;display:flex;flex-direction:column;justify-content:center}.portfolio-kicker{font:700 9px var(--display);letter-spacing:1.8px;text-transform:uppercase;color:#2457ed;margin-bottom:10px;display:flex;align-items:center;gap:8px}.portfolio-body h3{font:500 clamp(24px,2.5vw,32px)/1.12 var(--display);letter-spacing:-1.1px;margin:0 0 12px;color:#17223e}.portfolio-body p{font-size:13px;line-height:1.75;color:#64728a;margin:0 0 20px}.portfolio-features{list-style:none;padding:0;margin:0 0 22px;display:grid;grid-template-columns:1fr 1fr;gap:9px 14px}.portfolio-features li{display:flex;align-items:center;gap:7px;font-size:11px;color:#3d5072;font-weight:600}.portfolio-features .icon{width:14px;height:14px;color:#2457ed}.portfolio-actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:auto;padding-top:18px;border-top:1px solid #e4ebf7}.portfolio-actions .btn-primary{padding:12px 20px;font-size:12px;gap:12px}
+@media(max-width:920px){.portfolio-card{grid-template-columns:1fr}.portfolio-media{min-height:280px}.portfolio-body{padding:24px}}
+@media(max-width:760px){.portfolio{padding-top:16px;padding-bottom:28px}.portfolio-media{min-height:230px;padding:14px}.portfolio-thumbs{display:none}.portfolio-body{padding:20px}.portfolio-features{grid-template-columns:1fr}.portfolio-actions{gap:12px}}
 </style>
 <!--
 Three.js
@@ -339,7 +341,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 </defs></svg>
 <header class="header container">
 <a class="brand" href="#" aria-label="Kolvex, inicio"><svg class="brand-symbol" viewBox="500 310 620 640" aria-hidden="true"><use href="#kolvex-art"/></svg><svg class="brand-word" viewBox="300 1035 1020 255" aria-hidden="true"><use href="#kolvex-art"/></svg></a>
-<nav class="nav" id="navigation" aria-label="Navegación principal"><a href="#servicios">Qué hacemos</a><a href="#conoce-kolvex">Conocé Kolvex</a><a href="#proceso">El proceso</a><a href="#contacto">Hablemos</a></nav>
+<nav class="nav" id="navigation" aria-label="Navegación principal"><a href="#servicios">Qué hacemos</a><a href="#portafolios">Portafolios</a><a href="#conoce-kolvex">Conocé Kolvex</a><a href="#proceso">El proceso</a><a href="#contacto">Hablemos</a></nav>
 <div class="header-right"><a class="top-cta" data-wa="general" href="https://wa.me/595994430677?text=Hola%20Kolvex%2C%20quiero%20consultar%20sobre%20un%20proyecto." target="_blank" rel="noopener noreferrer">Empezar un proyecto <svg class="icon"><use href="#i-arrow"/></svg></a><button class="menu-button" aria-label="Abrir menú" aria-expanded="false" aria-controls="navigation"><svg class="icon"><use href="#i-menu"/></svg></button></div>
 </header>
 <main id="contenido">
@@ -392,10 +394,49 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 <article class="service-card reveal"><div class="card-top"><span class="service-icon"><svg class="icon"><use href="#i-stack"/></svg></span><span class="card-number">02 / SOFTWARE</span></div><div class="card-visual" aria-hidden="true"><div class="mini-layers"><div class="mini-layer"></div><div class="mini-layer"></div><div class="mini-layer"><b></b><b></b><b></b></div></div></div><h3>Tu negocio, más ordenado.</h3><p>Un sistema que se adapta a vos. Centralizá información y simplificá los procesos que hoy te hacen perder tiempo.</p><div class="card-tags"><span>Gestión</span><span>Paneles</span><span>Sistemas web</span></div><a class="card-link" data-wa="sistema" href="https://wa.me/595994430677?text=Hola%20Kolvex%2C%20quiero%20consultar%20por%20un%20sistema%20a%20medida." target="_blank" rel="noopener noreferrer">Necesito un sistema a medida <svg class="icon"><use href="#i-arrow"/></svg></a></article>
 <article class="service-card reveal"><div class="card-top"><span class="service-icon"><svg class="icon"><use href="#i-bolt"/></svg></span><span class="card-number">03 / AUTOMATIZACIÓN</span></div><div class="card-visual" aria-hidden="true"><div class="mini-flow"><i class="flow-pulse"></i><span class="flow-node"><svg class="icon"><use href="#i-window"/></svg></span><span class="flow-node"><svg class="icon"><use href="#i-bolt"/></svg></span><span class="flow-node"><svg class="icon"><use href="#i-check"/></svg></span></div></div><h3>Recuperá tu tiempo.</h3><p>Conectá tus herramientas y automatizá tareas repetitivas. Tu equipo puede concentrarse en lo que hace crecer al negocio.</p><div class="card-tags"><span>Flujos de trabajo</span><span>APIs</span></div><a class="card-link" data-wa="automatizacion" href="https://wa.me/595994430677?text=Hola%20Kolvex%2C%20quiero%20automatizar%20procesos%20de%20mi%20negocio." target="_blank" rel="noopener noreferrer">Quiero simplificar mi trabajo <svg class="icon"><use href="#i-arrow"/></svg></a></article>
 </div></section>
-<section class="process container reveal" id="proceso" aria-labelledby="process-title"><div class="process-title"><span class="eyebrow">02 / Así lo hacemos</span><h2 id="process-title">De «tengo una idea»<br>a «ya está funcionando».</h2></div><div class="steps"><article class="step"><span class="step-index">01</span><h3>Te escuchamos.</h3><p>Entendemos tu negocio,<br>tu idea y el problema.</p></article><article class="step"><span class="step-index">02</span><h3>Lo definimos.</h3><p>Alcance, inversión y plazos.<br>Todo claro desde el inicio.</p></article><article class="step"><span class="step-index">03</span><h3>Lo construimos.</h3><p>Desarrollo, revisión y entrega.<br>Con vos en cada paso.</p></article></div></section>
-<section class="contact container reveal" id="contacto" aria-labelledby="contact-title"><div><span class="eyebrow">03 / El siguiente paso es tuyo</span><h2 id="contact-title">Las buenas ideas merecen<br>salir de la cabeza.</h2><p>Contanos qué tenés en mente. Nosotros ponemos la tecnología.</p></div><div class="contact-actions"><a class="btn btn-primary" data-wa="general" href="https://wa.me/595994430677?text=Hola%20Kolvex%2C%20quiero%20consultar%20sobre%20un%20proyecto." target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="#i-chat"/></svg>Hablemos por WhatsApp <svg class="icon"><use href="#i-arrow"/></svg></a><a class="contact-number" href="tel:+595994430677">+595 994 430 677</a></div></section>
+<section class="portfolio container" id="portafolios" aria-labelledby="portfolio-title">
+<div class="section-heading reveal"><div><span class="eyebrow">02 / Portafolios & Demos en vivo</span><h2 id="portfolio-title">Proyectos en acción.<br><span>Experiencias que cautivan.</span></h2></div><p>Explorá muestras reales e interactivas de lo que diseñamos y desarrollamos a medida para cada rubro.</p></div>
+<div class="portfolio-Grid">
+<article class="portfolio-card reveal">
+  <a class="portfolio-media" href="portafolios/resort-demo/" aria-label="Abrir demo interactiva de Refugio Natural y Resort">
+    <video autoplay muted loop playsinline preload="metadata" poster="portafolios/resort-demo/media/bungalows.jpg">
+      <source src="portafolios/resort-demo/media/recorrido-resort.webm" type="video/webm">
+    </video>
+    <div class="portfolio-media-top">
+      <span class="portfolio-badge"><i></i>Demo Interactiva en Vivo</span>
+      <span class="portfolio-url">/portafolios/resort-demo ↗</span>
+    </div>
+    <div class="portfolio-media-bottom">
+      <span class="portfolio-badge">Tour Virtual HD · Hospitalidad</span>
+      <div class="portfolio-thumbs" aria-hidden="true">
+        <img src="portafolios/resort-demo/media/bungalows.jpg" alt="" loading="lazy">
+        <img src="portafolios/resort-demo/media/celebraciones.jpg" alt="" loading="lazy">
+        <img src="portafolios/resort-demo/media/eventos.jpg" alt="" loading="lazy">
+      </div>
+    </div>
+  </a>
+  <div class="portfolio-body">
+    <span class="portfolio-kicker"><span class="status-dot"></span>01 / Hospitalidad, Resorts & Eventos</span>
+    <h3>Refugio Natural &amp; Resort</h3>
+    <p>Propuesta web premium para resorts, alojamientos de lujo y salones de eventos. Integra recorrido virtual real en alta definición, estética editorial inmersiva y conversión directa por WhatsApp.</p>
+    <ul class="portfolio-features">
+      <li><svg class="icon"><use href="#i-check"/></svg>Recorrido en video HD</li>
+      <li><svg class="icon"><use href="#i-check"/></svg>Galería de experiencias</li>
+      <li><svg class="icon"><use href="#i-check"/></svg>Diseño 100% responsive</li>
+      <li><svg class="icon"><use href="#i-check"/></svg>Reservas vía WhatsApp</li>
+    </ul>
+    <div class="portfolio-actions">
+      <a class="btn btn-primary" href="portafolios/resort-demo/">Explorar demo en vivo <svg class="icon"><use href="#i-arrow"/></svg></a>
+      <a class="text-link" href="https://wa.me/595994430677?text=Hola%20Kolvex%2C%20vi%20la%20demo%20del%20Resort%20en%20su%20portafolio%20y%20quiero%20una%20web%20as%C3%AD." target="_blank" rel="noopener noreferrer">Quiero una web así <svg class="icon"><use href="#i-right"/></svg></a>
+    </div>
+  </div>
+</article>
+</div>
+</section>
+<section class="process container reveal" id="proceso" aria-labelledby="process-title"><div class="process-title"><span class="eyebrow">03 / Así lo hacemos</span><h2 id="process-title">De «tengo una idea»<br>a «ya está funcionando».</h2></div><div class="steps"><article class="step"><span class="step-index">01</span><h3>Te escuchamos.</h3><p>Entendemos tu negocio,<br>tu idea y el problema.</p></article><article class="step"><span class="step-index">02</span><h3>Lo definimos.</h3><p>Alcance, inversión y plazos.<br>Todo claro desde el inicio.</p></article><article class="step"><span class="step-index">03</span><h3>Lo construimos.</h3><p>Desarrollo, revisión y entrega.<br>Con vos en cada paso.</p></article></div></section>
+<section class="contact container reveal" id="contacto" aria-labelledby="contact-title"><div><span class="eyebrow">04 / El siguiente paso es tuyo</span><h2 id="contact-title">Las buenas ideas merecen<br>salir de la cabeza.</h2><p>Contanos qué tenés en mente. Nosotros ponemos la tecnología.</p></div><div class="contact-actions"><a class="btn btn-primary" data-wa="general" href="https://wa.me/595994430677?text=Hola%20Kolvex%2C%20quiero%20consultar%20sobre%20un%20proyecto." target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="#i-chat"/></svg>Hablemos por WhatsApp <svg class="icon"><use href="#i-arrow"/></svg></a><a class="contact-number" href="tel:+595994430677">+595 994 430 677</a></div></section>
 </main>
-<footer class="footer container"><a class="brand" href="#" aria-label="Kolvex, inicio"><svg class="brand-symbol" viewBox="500 310 620 640" aria-hidden="true"><use href="#kolvex-art"/></svg><svg class="brand-word" viewBox="300 1035 1020 255" aria-hidden="true"><use href="#kolvex-art"/></svg></a><span>© <span id="year">2026</span> Kolvex · Hecho con intención, desde Paraguay.</span><div class="footer-links"><a href="#servicios">Servicios</a><a href="#contacto">Contacto</a><a href="#">Volver arriba ↑</a></div></footer>
+<footer class="footer container"><a class="brand" href="#" aria-label="Kolvex, inicio"><svg class="brand-symbol" viewBox="500 310 620 640" aria-hidden="true"><use href="#kolvex-art"/></svg><svg class="brand-word" viewBox="300 1035 1020 255" aria-hidden="true"><use href="#kolvex-art"/></svg></a><span>© <span id="year">2026</span> Kolvex · Hecho con intención, desde Paraguay.</span><div class="footer-links"><a href="#servicios">Servicios</a><a href="#portafolios">Portafolios</a><a href="#contacto">Contacto</a><a href="#">Volver arriba ↑</a></div></footer>
 <script>
 document.documentElement.classList.add('js');
 document.getElementById('year').textContent=new Date().getFullYear();
